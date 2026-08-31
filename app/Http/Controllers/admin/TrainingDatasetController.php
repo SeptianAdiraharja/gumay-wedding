@@ -8,6 +8,8 @@ use App\Models\SkinType;
 use App\Models\TrainingDataset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Http\Requests\Admin\TrainingDatasetImportRequest;
+use App\Services\TrainingDatasetImportService;
 
 class TrainingDatasetController extends Controller
 {
@@ -65,7 +67,7 @@ class TrainingDatasetController extends Controller
     /**
      * Handle bulk import from Excel / CSV file.
      */
-    public function import(\App\Http\Requests\Admin\TrainingDatasetImportRequest $request, \App\Services\TrainingDatasetImportService $service): RedirectResponse
+    public function import(TrainingDatasetImportRequest $request, TrainingDatasetImportService $service): RedirectResponse
     {
         $file = $request->file('file');
         $replaceExisting = $request->input('mode') === 'replace';

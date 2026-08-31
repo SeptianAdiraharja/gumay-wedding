@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
             SkinTypeSeeder::class,
             SkinAttributeSeeder::class,
             TrainingDatasetSeeder::class,
-            MakeupRecommendationSeeder::class,
+            // MakeupRecommendationSeeder::class,
             AdminSeeder::class,
         ]);
     }

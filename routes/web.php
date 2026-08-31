@@ -38,6 +38,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('galeri', GalleryController::class)->except('show')->parameters(['galeri' => 'gallery'])->names('galleries');
         Route::resource('rekomendasi', MakeupRecommendationController::class)->except('show')->parameters(['rekomendasi' => 'recommendation'])->names('recommendations');
+        Route::get('recommendations/import', [MakeupRecommendationController::class, 'importForm'])->name('recommendations.import');
+        Route::post('recommendations/import', [MakeupRecommendationController::class, 'importStore'])->name('recommendations.import.store');
 
         Route::get('data-latih/template', [TrainingDatasetController::class, 'template'])->name('training-dataset.template');
         Route::post('data-latih/import', [TrainingDatasetController::class, 'import'])->name('training-dataset.import');

@@ -18,44 +18,56 @@
         </div>
     @endif
 
-    <!-- Jenis Kulit & Kategori Produk (2 Kolom) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-            <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Jenis Kulit</label>
-            <select name="skin_type_id" required
-                    class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm px-4 py-2.5 outline-none transition duration-150">
-                @foreach($skinTypes as $st)
-                    <option value="{{ $st->id }}" {{ old('skin_type_id') == $st->id ? 'selected' : '' }}>
-                        {{ $st->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Kategori Produk</label>
-            <select name="category" required
-                    class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm px-4 py-2.5 outline-none transition duration-150">
-                @foreach(['primer','foundation','concealer','bedak','blush','eye','lip','setting_spray'] as $cat)
-                    <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>
-                        {{ str_replace('_', ' ', ucfirst($cat)) }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+    <!-- Jenis Kulit -->
+    <div>
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Jenis Kulit Dasar</label>
+        <select name="skin_type_id" required
+                class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm px-4 py-2.5 outline-none transition duration-150">
+            @foreach($skinTypes as $st)
+                <option value="{{ $st->id }}" {{ old('skin_type_id') == $st->id ? 'selected' : '' }}>
+                    {{ $st->name }}
+                </option>
+            @endforeach
+        </select>
     </div>
 
-    <!-- Judul -->
+    <!-- Kondisi Tambahan (Jerawat & Sensitif) -->
     <div>
-        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Judul</label>
-        <input type="text" name="title" value="{{ old('title') }}" required
-               class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm px-4 py-2.5 outline-none transition duration-150 placeholder-ink/30">
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Kondisi Tambahan</label>
+        <div class="flex flex-wrap gap-6">
+            <label class="inline-flex items-center gap-2 text-sm text-ivory">
+                <input type="checkbox" name="is_acne" value="1" {{ old('is_acne') ? 'checked' : '' }}
+                       class="rounded border-gold/30 bg-surface text-gold focus:ring-gold">
+                Berjerawat
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm text-ivory">
+                <input type="checkbox" name="is_sensitive" value="1" {{ old('is_sensitive') ? 'checked' : '' }}
+                       class="rounded border-gold/30 bg-surface text-gold focus:ring-gold">
+                Sensitif
+            </label>
+        </div>
+        <p class="text-xs text-ink/50 mt-2">Kosongkan keduanya jika rekomendasi ini untuk kondisi kulit tanpa kondisi tambahan.</p>
     </div>
 
-    <!-- Deskripsi -->
+    <!-- Tips Perawatan -->
     <div>
-        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Deskripsi</label>
-        <textarea name="description" rows="4"
-                  class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm p-4 outline-none transition duration-150 resize-none placeholder-ink/30">{{ old('description') }}</textarea>
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Tips Perawatan</label>
+        <textarea name="tips_perawatan" rows="4" required
+                  class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm p-4 outline-none transition duration-150 resize-none placeholder-ink/30">{{ old('tips_perawatan') }}</textarea>
+    </div>
+
+    <!-- Makeup Perempuan -->
+    <div>
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Rekomendasi Makeup Perempuan</label>
+        <textarea name="makeup_perempuan" rows="4" required
+                  class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm p-4 outline-none transition duration-150 resize-none placeholder-ink/30">{{ old('makeup_perempuan') }}</textarea>
+    </div>
+
+    <!-- Makeup Laki-laki -->
+    <div>
+        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-2">Rekomendasi Makeup Laki-laki</label>
+        <textarea name="makeup_laki_laki" rows="4" required
+                  class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm p-4 outline-none transition duration-150 resize-none placeholder-ink/30">{{ old('makeup_laki_laki') }}</textarea>
     </div>
 
     <!-- Tombol Aksi -->

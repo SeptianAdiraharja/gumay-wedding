@@ -58,7 +58,7 @@ class ConsultationController extends Controller
             'sensitivitas'        => $consultation->sensitivitas,
         ]);
 
-        $fileName = 'Detail_Konsultasi_' . Str::slug($consultation->name ?? 'Pengunjung') . '_' . $consultation->id . '.pdf';
+        $fileName = 'Detail_Konsultasi_' . Str::slug($consultation->name ?? 'Pengunjung') . '.pdf';
 
         $pdf = Pdf::loadView('admin.consultations.show-pdf', compact('consultation', 'calculation'))
             ->setPaper('a4', 'portrait');
