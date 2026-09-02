@@ -47,5 +47,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->except('show')
             ->parameters(['data-latih' => 'trainingDataset'])
             ->names('training-dataset');
+        Route::get('training-dataset/export', [TrainingDatasetController::class, 'export'])->name('training-dataset.export');
     });
 });

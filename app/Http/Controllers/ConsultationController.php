@@ -6,6 +6,7 @@ use App\Http\Requests\ConsultationStoreRequest;
 use App\Models\Consultation;
 use App\Models\MakeupRecommendation;
 use App\Models\SkinAttribute;
+use Database\Seeders\SkinAttributeSeeder;
 use App\Services\NaiveBayesService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -21,7 +22,7 @@ class ConsultationController extends Controller
         $questions = SkinAttribute::all();
 
         if ($questions->isEmpty()) {
-            (new \Database\Seeders\SkinAttributeSeeder())->run();
+            (new SkinAttributeSeeder())->run();
             $questions = SkinAttribute::all();
         }
 

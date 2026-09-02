@@ -61,7 +61,7 @@
 
         <!-- Input Foto Wajah -->
         <div>
-            <label class="block text-xs font-semibold uppercase tracking-wide text-gold/70 mb-3">Foto Wajah (opsional)</label>
+            <label class="block text-xs font-semibold uppercase tracking-wide text-gold/70 mb-3">Foto Wajah</label>
 
             <label for="photo-input"
                    class="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gold/30 bg-plum/40 rounded-2xl px-6 py-8 cursor-pointer hover:border-gold hover:bg-gold/5 transition-all duration-150 text-center">

@@ -9,7 +9,9 @@ use App\Models\TrainingDataset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Http\Requests\Admin\TrainingDatasetImportRequest;
+use App\Services\TrainingDatasetExportService;
 use App\Services\TrainingDatasetImportService;
+use Illuminate\Http\Request;
 
 class TrainingDatasetController extends Controller
 {
@@ -93,10 +95,17 @@ class TrainingDatasetController extends Controller
     /**
      * Download format template for Excel / CSV import.
      */
-    public function template(\Illuminate\Http\Request $request, \App\Services\TrainingDatasetImportService $service)
+    public function template(Request $request, TrainingDatasetImportService $service)
     {
         $format = $request->query('format', 'xlsx');
 
         return $service->exportTemplate($format === 'csv' ? 'csv' : 'xlsx');
+    }
+
+    public function export(Request $request, TrainingDatasetExportService $service)
+    {
+        $format = $request->query('format', 'xlsx');
+
+        return $service->exportData($format);
     }
 }
