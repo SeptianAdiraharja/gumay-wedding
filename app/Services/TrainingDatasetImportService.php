@@ -398,10 +398,17 @@ class TrainingDatasetImportService
     public function normalizeSkincare(string $val): string
     {
         $v = strtolower(trim($val));
-        if (str_contains($v, 'tidak') || str_contains($v, 'no') || $v === '0' || $v === 'false') return 'tidak';
+
+        if (str_contains($v, 'dokter') || str_contains($v, 'resep') || str_contains($v, 'medis') || str_contains($v, 'dermatolog')) {
+            return 'dokter';
+        }
+
+        if (str_contains($v, 'tidak') || str_contains($v, 'no') || $v === '0' || $v === 'false') {
+            return 'tidak';
+        }
+
         return 'ya';
     }
-
     public function normalizeJerawat(string $val): string
     {
         $v = strtolower(trim($val));
@@ -448,10 +455,10 @@ class TrainingDatasetImportService
             ['Berminyak', 'Tinggi', 'Rendah', 'Besar', 'Ya', 'Ya', 'Tinggi'],
             ['Berminyak', 'Tinggi', 'Rendah', 'Sedang', 'Ya', 'Tidak', 'Rendah'],
             ['Kering', 'Rendah', 'Tinggi', 'Kecil', 'Tidak', 'Ya', 'Tinggi'],
-            ['Kering', 'Rendah', 'Tinggi', 'Kecil', 'Ya', 'Tidak', 'Rendah'],
+            ['Kering', 'Rendah', 'Tinggi', 'Kecil', 'Dokter', 'Tidak', 'Rendah'],
             ['Normal', 'Sedang', 'Rendah', 'Kecil', 'Ya', 'Tidak', 'Rendah'],
             ['Normal', 'Sedang', 'Sedang', 'Sedang', 'Ya', 'Ya', 'Rendah'],
-            ['Kombinasi', 'Tinggi', 'Tinggi', 'Sedang', 'Ya', 'Ya', 'Tinggi'],
+            ['Kombinasi', 'Tinggi', 'Tinggi', 'Sedang', 'Dokter', 'Ya', 'Tinggi'],
             ['Kombinasi', 'Tinggi', 'Tinggi', 'Besar', 'Tidak', 'Tidak', 'Rendah'],
         ];
     }

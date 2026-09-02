@@ -231,7 +231,7 @@ class NaiveBayesService
             'tingkat_minyak'      => 3,
             'tingkat_kering'      => 3,
             'pori_pori'           => 3,
-            'penggunaan_skincare' => 2,
+            'penggunaan_skincare' => 3,
             'jerawat'             => 2,
             'sensitivitas'        => 3,
         ];

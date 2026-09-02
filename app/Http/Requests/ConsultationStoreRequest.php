@@ -21,7 +21,7 @@ class ConsultationStoreRequest extends FormRequest
             'tingkat_minyak' => ['required', 'in:rendah,sedang,tinggi'],
             'tingkat_kering' => ['required', 'in:rendah,sedang,tinggi'],
             'pori_pori' => ['required', 'in:kecil,sedang,besar'],
-            'penggunaan_skincare' => ['required', 'in:ya,tidak'],
+            'penggunaan_skincare' => ['required', 'in:ya,tidak,dokter'],
             'jerawat' => ['required', 'in:ya,tidak'],
             'sensitivitas' => ['required', 'in:rendah,sedang,tinggi'],
         ];

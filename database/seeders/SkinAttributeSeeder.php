@@ -27,8 +27,8 @@ class SkinAttributeSeeder extends Seeder
             ],
             [
                 'attribute_key' => 'penggunaan_skincare',
-                'question_text' => 'Apakah Anda rutin menggunakan produk skincare dasar (cleanser, toner, moisturizer, sunscreen) sehari-hari?',
-                'options' => ['ya', 'tidak'],
+                'question_text' => 'Apakah Anda rutin menggunakan produk skincare untuk perawatan kulit sehari-hari?',
+                'options' => ['ya', 'tidak', 'dokter'],
             ],
             [
                 'attribute_key' => 'jerawat',

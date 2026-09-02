@@ -113,7 +113,7 @@
                 </label>
                 <select name="penggunaan_skincare" required
                         class="w-full bg-surface border border-gold/20 focus:border-gold focus:ring-1 focus:ring-gold text-ivory rounded-xl text-sm px-4 py-3 outline-none transition duration-150 cursor-pointer">
-                    @foreach(['ya' => 'Rutin', 'tidak' => 'Tidak Rutin'] as $opt => $label)
+                    @foreach(['ya' => 'Rutin', 'tidak' => 'Tidak Rutin', 'dokter' => 'Dari Dokter'] as $opt => $label)
                         <option value="{{ $opt }}" {{ old('penggunaan_skincare', $trainingDataset->penggunaan_skincare) === $opt ? 'selected' : '' }} class="bg-plum text-ivory">
                             {{ $label }}
                         </option>

@@ -99,8 +99,9 @@
                     'besar' => 'Besar (Terbuka di sebagian besar wajah)',
                 ],
                 'penggunaan_skincare' => [
-                    'ya' => 'Ya, Rutin (Cleanser, pelembap, sunscreen, dll)',
-                    'tidak' => 'Tidak / Jarang (Belum rutin perawatan kulit)',
+                    'ya' => 'Ya, rutin skincare basic',
+                    'tidak' => 'Tidak sama sekali',
+                    'dokter' => 'Menggunakan skincare dari dokter (cream siang, malam)',
                 ],
                 'jerawat' => [
                     'ya' => 'Ya (Ada jerawat aktif / beruntusan)',

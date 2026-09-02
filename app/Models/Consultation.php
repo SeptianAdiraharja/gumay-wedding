@@ -29,17 +29,26 @@ class Consultation extends Model
         ];
     }
 
+    /**
+     * Relasi ke jenis kulit hasil prediksi.
+     */
     public function predictedSkinType(): BelongsTo
     {
-        return $this->belongsTo(SkinType::class, 'predicted_skin_type_id');
+        return $this->belongsTo(
+            SkinType::class,
+            'predicted_skin_type_id'
+        );
     }
 
     /**
-     * Nama diagnosa lengkap yang menggabungkan Jenis Kulit Dasar + Kondisi Kulit (Jerawat & Sensitivitas)
+     * Nama diagnosa lengkap yang menggabungkan
+     * jenis kulit dasar dengan kondisi jerawat dan sensitivitas.
      */
     public function getFullDiagnosisNameAttribute(): string
     {
-        $baseName = $this->predictedSkinType?->name ?? 'Jenis Kulit Tidak Teridentifikasi';
+        $baseName = $this->predictedSkinType?->name
+            ?? 'Jenis Kulit Tidak Teridentifikasi';
+
         $conditions = [];
 
         if ($this->jerawat === 'ya') {
@@ -58,7 +67,7 @@ class Consultation extends Model
     }
 
     /**
-     * Daftar badge kondisi kulit
+     * Daftar badge kondisi kulit.
      */
     public function getConditionBadgesAttribute(): array
     {
@@ -117,14 +126,21 @@ class Consultation extends Model
         if ($this->penggunaan_skincare === 'ya') {
             $badges[] = [
                 'type' => 'skincare',
-                'label' => 'Skincare: Rutin',
+                'label' => 'Skincare: Rutin Basic',
                 'value' => 'ya',
                 'bg' => 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+            ];
+        } elseif ($this->penggunaan_skincare === 'dokter') {
+            $badges[] = [
+                'type' => 'skincare',
+                'label' => 'Skincare: Dari Dokter',
+                'value' => 'dokter',
+                'bg' => 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
             ];
         } else {
             $badges[] = [
                 'type' => 'skincare',
-                'label' => 'Skincare: Belum Rutin',
+                'label' => 'Skincare: Tidak Sama Sekali',
                 'value' => 'tidak',
                 'bg' => 'bg-stone-500/20 text-stone-300 border-stone-500/30',
             ];
@@ -134,42 +150,49 @@ class Consultation extends Model
     }
 
     /**
-     * Panduan skin preparation & teknik makeup khusus berdasarkan kondisi pengguna
+     * Panduan skin preparation dan teknik makeup
+     * berdasarkan kondisi pengguna.
      */
     public function getPreparationAdviceAttribute(): array
     {
         $advice = [];
 
-        // Panduan Jerawat
+        // 1. Panduan Jerawat
         if ($this->jerawat === 'ya') {
             $advice[] = [
                 'icon' => 'acne',
                 'title' => 'Teknik Riasan untuk Kondisi Berjerawat',
-                'desc' => 'Gunakan color corrector hijau secara presisi untuk menetralkan kemerahan jerawat. Aplikasikan concealer berformula non-comedogenic dengan teknik spot-dabbing (ditepuk halus, bukan digeser) menggunakan kuas/spons yang steril agar tidak memperparah inflamasi.',
+                'desc' => 'Gunakan color corrector hijau secara presisi untuk menetralkan kemerahan jerawat. Aplikasikan concealer berformula non-comedogenic dengan teknik spot-dabbing (ditepuk halus, bukan digeser) menggunakan kuas atau spons yang bersih agar tidak memperparah kondisi kulit.',
             ];
         }
 
-        // Panduan Sensitif
+        // 2. Panduan Kulit Sensitif
         if ($this->sensitivitas === 'tinggi') {
             $advice[] = [
                 'icon' => 'sensitive',
                 'title' => 'Penanganan Kulit Sensitif & Mudah Iritasi',
-                'desc' => 'Gunakan produk kosmetik berlabel hypoallergenic, bebas pewangi sintetis (fragrance-free) dan bebas alkohol. Sebelum riasan dimulai, MUA akan mengompres wajah dengan soothing mist atau aloe gel dingin untuk menenangkan skin barrier.',
+                'desc' => 'Gunakan produk kosmetik yang sesuai untuk kulit sensitif, seperti produk hypoallergenic, bebas pewangi sintetis (fragrance-free), dan minim bahan yang berpotensi menyebabkan iritasi. Hindari penggunaan produk baru secara langsung sebelum acara.',
             ];
         }
 
-        // Panduan Skincare
+        // 3. Panduan Penggunaan Skincare
         if ($this->penggunaan_skincare === 'tidak') {
             $advice[] = [
                 'icon' => 'skincare',
-                'title' => 'Persiapan Kulit Ekstra (Skin Prep Sebelum Hari H)',
-                'desc' => 'Karena belum rutin menggunakan skincare harian, kulit membutuhkan hidrasi instan sebelum hari pernikahan. MUA akan memberikan perawatan skin prep intensif (deep moisturizing sheet mask & hydrating toner) 15-20 menit sebelum pengaplikasian foundation agar makeup menempel sempurna dan tahan seharian.',
+                'title' => 'Persiapan Kulit Ekstra',
+                'desc' => 'Karena belum menggunakan skincare secara rutin, kulit memerlukan persiapan hidrasi yang cukup sebelum pengaplikasian makeup. Gunakan pelembap dan skin preparation yang sesuai agar makeup dapat menempel lebih baik dan tidak mudah terlihat kering.',
+            ];
+        } elseif ($this->penggunaan_skincare === 'dokter') {
+            $advice[] = [
+                'icon' => 'skincare',
+                'title' => 'Perhatian untuk Pengguna Skincare Dokter',
+                'desc' => 'Pertahankan penggunaan skincare dari dokter sesuai dengan petunjuk yang diberikan. Hindari menghentikan atau mengganti produk secara tiba-tiba menjelang acara. Informasikan kepada MUA mengenai penggunaan skincare dokter agar produk makeup dan skin preparation dapat disesuaikan.',
             ];
         } else {
             $advice[] = [
                 'icon' => 'skincare',
                 'title' => 'Optimasi Skin Preparation yang Sudah Rutin',
-                'desc' => 'Pertahankan rutinitas skincare dasar Anda menjelang hari H. Hindari mencoba produk aktif baru (seperti retinol atau peeling konsentrasi tinggi) 2 minggu sebelum acara agar kondisi skin barrier tetap optimal saat dirias.',
+                'desc' => 'Pertahankan rutinitas skincare basic seperti cleanser, moisturizer, dan sunscreen menjelang hari H. Hindari mencoba produk aktif baru atau melakukan perawatan yang berpotensi menyebabkan iritasi agar kondisi skin barrier tetap optimal saat dirias.',
             ];
         }
 

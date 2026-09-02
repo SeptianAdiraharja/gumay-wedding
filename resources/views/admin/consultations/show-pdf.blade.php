@@ -1,34 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="utf-8">
     <title>Detail Konsultasi - {{ $consultation->name }}</title>
     <style>
-        body { font-family: sans-serif; font-size: 12px; color: #333; line-height: 1.4; }
-        .header { text-align: center; margin-bottom: 20px; border-b: 2px solid #ddd; padding-bottom: 10px; }
-        .table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-        .table th, .table td { border: 1px solid #ccc; padding: 6px 8px; font-size: 11px; }
-        .table th { background-color: #f4f4f4; text-align: left; }
-        .badge { background: #e2e8f0; padding: 3px 6px; border-radius: 4px; font-size: 10px; }
-        .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; font-size: 13px; text-transform: uppercase; }
+        @page {
+            margin: 15mm 15mm 15mm 15mm;
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            color: #2d3748;
+            line-height: 1.5;
+            background-color: #ffffff;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 12px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 10px;
+            color: #64748b;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #334155;
+            border-left: 3px solid #0284c7;
+            padding-left: 8px;
+        }
+
+        /* Table Styling */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+        .table th, .table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 10px;
+            font-size: 10.5px;
+            vertical-align: middle;
+        }
+        .table th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            text-align: left;
+        }
+        .table-center th, .table-center td {
+            text-align: center;
+        }
+
+        /* Badges & Highlights */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .badge-primary {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        .text-highlight {
+            color: #0369a1;
+            font-weight: 700;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            margin-top: 15px;
+            padding: 12px 15px;
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            text-align: justify;
+            font-size: 11px;
+            color: #0c4a6e;
+            line-height: 1.6;
+            page-break-inside: avoid;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Header -->
     <div class="header">
-        <h2 style="margin:0;">LAPORAN DETAIL KONSULTASI KULIT</h2>
-        <p style="margin:4px 0 0 0;">Tanggal: {{ $consultation->created_at->format('d F Y, H:i') }}</p>
+        <h2>Laporan Detail Konsultasi Kulit</h2>
+        <p>Tanggal Diterbitkan: {{ $consultation->created_at->format('d F Y, H:i') }} WIB</p>
     </div>
 
+    <!-- Informasi Pengunjung -->
     <div class="section-title">Informasi Pengunjung</div>
     <table class="table">
-        <tr><th width="30%">Nama</th><td>{{ $consultation->name ?? '-' }}</td></tr>
-        <tr><th>No. Handphone</th><td>{{ $consultation->phone ?? '-' }}</td></tr>
-        <tr><th>Jenis Kelamin</th><td>{{ ucfirst($consultation->gender ?? 'Wanita') }}</td></tr>
-        <tr><th>Hasil Diagnosis</th><td><strong>{{ $consultation->full_diagnosis_name }}</strong></td></tr>
+        <tr>
+            <th width="25%">Nama Lengkap</th>
+            <td width="25%">{{ $consultation->name ?? '-' }}</td>
+            <th width="25%">Jenis Kelamin</th>
+            <td width="25%">{{ ucfirst($consultation->gender ?? 'Wanita') }}</td>
+        </tr>
+        <tr>
+            <th>No. Handphone</th>
+            <td>{{ $consultation->phone ?? '-' }}</td>
+            <th>Probabilitas Jenis Kulit</th>
+            <td><strong class="text-highlight">{{ $consultation->full_diagnosis_name }}</strong></td>
+        </tr>
     </table>
 
+    <!-- Parameter Jawaban -->
     <div class="section-title">Parameter Jawaban (6 Fitur)</div>
-    <table class="table">
+    <table class="table table-center">
         <thead>
             <tr>
                 <th>Minyak</th>
@@ -51,11 +154,12 @@
         </tbody>
     </table>
 
+    <!-- Hasil Perhitungan Naive Bayes -->
     <div class="section-title">Hasil Perhitungan Naive Bayes</div>
-    <table class="table">
+    <table class="table table-center">
         <thead>
             <tr>
-                <th>Kelas Tipe Kulit</th>
+                <th style="text-align: left;">Kelas Tipe Kulit</th>
                 <th>Prior P(C)</th>
                 <th>Likelihood Total</th>
                 <th>Posterior</th>
@@ -64,15 +168,28 @@
         </thead>
         <tbody>
             @foreach($calculation['classes'] as $cls)
-            <tr>
-                <td><strong>{{ $cls['name'] }}</strong></td>
+            <tr @if($loop->first) style="background-color: #f0fdf4;" @endif>
+                <td style="text-align: left;">
+                    <strong>{{ $cls['name'] }}</strong>
+                </td>
                 <td>{{ round($cls['prior_val'], 4) }}</td>
                 <td>{{ sprintf('%.3e', $cls['total_likelihood']) }}</td>
                 <td>{{ sprintf('%.3e', $cls['posterior_val']) }}</td>
-                <td><strong>{{ $cls['percentage'] }}%</strong></td>
+                <td>
+                    <span class="badge {{ $loop->first ? 'badge-primary' : '' }}">
+                        {{ $cls['percentage'] }}%
+                    </span>
+                </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+
+    <!-- Kesimpulan -->
+    @php $highestProbability = collect($calculation['classes'])->first(); @endphp
+    <div class="summary-box">
+        <strong>Kesimpulan:</strong> Berdasarkan hasil perhitungan metode <strong>Naive Bayes</strong>, kategori <strong>{{ $highestProbability['name'] }}</strong> memiliki nilai probabilitas tertinggi sebesar <strong>{{ number_format($highestProbability['percentage'], 2) }}%</strong>. Oleh karena itu, kondisi kulit atas nama <strong>{{ $consultation->name }}</strong> diklasifikasikan ke dalam tipe kulit <strong>{{ $highestProbability['name'] }}</strong>.
+    </div>
+
 </body>
 </html>

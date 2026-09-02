@@ -168,7 +168,7 @@
                         <td class="px-5 py-3.5 capitalize text-ink/80">{{ $row->tingkat_minyak }}</td>
                         <td class="px-5 py-3.5 capitalize text-ink/80">{{ $row->tingkat_kering }}</td>
                         <td class="px-5 py-3.5 capitalize text-ink/80">{{ $row->pori_pori }}</td>
-                        <td class="px-5 py-3.5 capitalize text-ink/80">{{ $row->penggunaan_skincare === 'ya' ? 'Rutin' : 'Tidak' }}</td>
+                       <td class="px-5 py-3.5 capitalize text-ink/80"> {{ match($row->penggunaan_skincare) { 'ya' => 'Rutin', 'dokter' => 'Dari Dokter', default => 'Tidak', } }} </td>
                         <td class="px-5 py-3.5 capitalize text-ink/80">{{ $row->jerawat }}</td>
                         <td class="px-5 py-3.5 capitalize text-ink/80">{{ $row->sensitivitas }}</td>
                         <td class="px-5 py-3.5 text-right font-medium">
