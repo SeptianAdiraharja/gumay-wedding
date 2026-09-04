@@ -101,30 +101,58 @@
                 </svg>
             </div>
             <div>
-                <h2 class="font-display text-2xl text-ivory">Rekomendasi Formulasi Makeup</h2>
-                <p class="text-xs text-ink/50">Formulasi &amp; produk pilihan yang disesuaikan untuk hasil riasan tahan lama</p>
+                <h2 class="font-display text-2xl text-ivory">Rekomendasi Makeup &amp; Perawatan</h2>
+                <p class="text-xs text-ink/50">
+                    Rekomendasi khusus untuk
+                    <span class="text-gold font-semibold">{{ $consultation->gender === 'pria' ? 'Pria' : 'Wanita' }}</span>
+                    dengan kulit
+                    <span class="text-gold font-semibold">{{ $consultation->predictedSkinType->name ?? '' }}</span>
+                    @if($consultation->jerawat === 'ya')
+                        <span class="text-rose-300">• Berjerawat</span>
+                    @endif
+                    @if($consultation->sensitivitas === 'tinggi')
+                        <span class="text-amber-300">• Sensitif</span>
+                    @endif
+                </p>
             </div>
         </div>
 
-        @if($recommendations->isEmpty())
+        @if($filteredRecommendations->isEmpty())
             <div class="bg-surface/50 border border-dashed border-gold/20 rounded-2xl p-8 text-center">
-                <p class="text-ink/50 text-sm">Belum ada data rekomendasi produk untuk jenis kulit ini.</p>
+                <p class="text-ink/50 text-sm">Belum ada data rekomendasi untuk kondisi kulit ini.</p>
+                <p class="text-ink/40 text-xs mt-2">Silakan hubungi admin untuk menambahkan rekomendasi.</p>
             </div>
         @else
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                @foreach($recommendations as $rec)
-                    <div class="group bg-surface border border-gold/15 hover:border-gold/50 rounded-2xl p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
-                        <div>
-                            <span class="inline-block px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-semibold uppercase tracking-wider mb-3">
-                                {{ str_replace('_', ' ', $rec->category) }}
-                            </span>
-                            <h3 class="font-display text-lg text-ivory group-hover:text-gold transition-colors duration-200 mb-2">
-                                {{ $rec->title }}
-                            </h3>
-                            <p class="text-sm text-ink/70 leading-relaxed font-light">
-                                {{ $rec->description }}
-                            </p>
-                        </div>
+            <div class="space-y-6">
+                @foreach($filteredRecommendations as $rec)
+                    <!-- Tips Perawatan -->
+                    @if($rec->tips_perawatan)
+                    <div class="bg-surface border border-gold/15 rounded-2xl p-6 hover:border-gold/50 transition-all duration-300">
+                        <h3 class="font-display text-lg text-gold mb-3">✨ Tips Perawatan</h3>
+                        <p class="text-sm text-ink/70 leading-relaxed font-light">{{ $rec->tips_perawatan }}</p>
+                    </div>
+                    @endif
+
+                    <!-- Makeup sesuai Gender -->
+                    @if($rec->makeup_text)
+                    <div class="bg-surface border border-gold/15 rounded-2xl p-6 hover:border-gold/50 transition-all duration-300">
+                        <h3 class="font-display text-lg text-gold mb-3">{{ $rec->makeup_icon }} {{ $rec->makeup_label }}</h3>
+                        <p class="text-sm text-ink/70 leading-relaxed font-light">{{ $rec->makeup_text }}</p>
+                    </div>
+                    @endif
+
+                    <!-- Info Tambahan: Kondisi Khusus -->
+                    <div class="bg-surface/50 border border-gold/10 rounded-2xl p-4 text-center">
+                        <span class="text-xs text-ink/40">
+                            Rekomendasi ini berdasarkan jenis kulit
+                            <span class="text-gold">{{ $consultation->predictedSkinType->name ?? '' }}</span>
+                            @if($rec->is_acne)
+                                <span class="text-rose-300">• dengan kondisi berjerawat</span>
+                            @endif
+                            @if($rec->is_sensitive)
+                                <span class="text-amber-300">• kulit sensitif</span>
+                            @endif
+                        </span>
                     </div>
                 @endforeach
             </div>
