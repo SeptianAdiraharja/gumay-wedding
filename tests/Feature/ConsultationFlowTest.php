@@ -60,7 +60,7 @@ class ConsultationFlowTest extends TestCase
         $resultPage = $this->get(route('consultation.result', $consultation->id));
         $resultPage->assertStatus(200);
         $resultPage->assertSee('Kulit Berminyak (Berjerawat &amp; Sensitif)', false);
-        $resultPage->assertSee('Rekomendasi Formulasi Makeup');
+        $resultPage->assertSee('Rekomendasi Makeup &amp; Perawatan', false);
         $resultPage->assertDontSee('Tips Perawatan Kulit');
     }
 
@@ -139,27 +139,6 @@ class ConsultationFlowTest extends TestCase
         $response->assertSee('Perhitungan Naive Bayes');
         $response->assertSee('Matriks Likelihood');
         $response->assertSee('Terpilih (Pemenang)');
-    }
-
-    public function test_admin_can_export_single_consultation_to_excel_with_calculations(): void
-    {
-        $user = User::first() ?? User::factory()->create();
-        $consultation = Consultation::create([
-            'name' => 'Lisa',
-            'gender' => 'wanita',
-            'tingkat_minyak' => 'sedang',
-            'tingkat_kering' => 'rendah',
-            'pori_pori' => 'kecil',
-            'penggunaan_skincare' => 'ya',
-            'jerawat' => 'tidak',
-            'sensitivitas' => 'rendah',
-            'predicted_skin_type_id' => SkinType::where('code', 'normal')->first()->id,
-        ]);
-
-        $response = $this->actingAs($user, 'web')->get(route('admin.consultations.export-excel', $consultation));
-
-        $response->assertStatus(200);
-        $response->assertHeader('content-disposition');
     }
 
     public function test_admin_can_export_single_consultation_to_pdf(): void

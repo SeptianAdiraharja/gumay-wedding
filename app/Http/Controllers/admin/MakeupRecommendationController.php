@@ -24,13 +24,36 @@ class MakeupRecommendationController extends Controller
     public function create(): View
     {
         $skinTypes = SkinType::all();
+        $existingRecommendations = MakeupRecommendation::with('skinType')->get();
 
-        return view('admin.recommendations.create', compact('skinTypes'));
+        return view('admin.recommendations.create', compact('skinTypes', 'existingRecommendations'));
     }
 
     public function store(MakeupRecommendationRequest $request): RedirectResponse
     {
-        MakeupRecommendation::create($request->validated());
+        $validated = $request->validated();
+        $validated['is_acne'] = $request->boolean('is_acne');
+        $validated['is_sensitive'] = $request->boolean('is_sensitive');
+
+        // Pengecekan keamanan ganda terhadap kombinasi yang sudah ada
+        $existing = MakeupRecommendation::where('skin_type_id', $validated['skin_type_id'])
+            ->where('is_acne', $validated['is_acne'])
+            ->where('is_sensitive', $validated['is_sensitive'])
+            ->first();
+
+        if ($existing) {
+            return back()
+                ->withInput()
+                ->with('error', 'Kombinasi jenis kulit dan kondisi ini sudah terdaftar dalam sistem. Silakan edit data tersebut.');
+        }
+
+        try {
+            MakeupRecommendation::create($validated);
+        } catch (\Illuminate\Database\UniqueConstraintViolationException $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Kombinasi jenis kulit dan kondisi ini sudah terdaftar dalam sistem. Silakan edit data tersebut.');
+        }
 
         return redirect()
             ->route('admin.recommendations.index')
@@ -46,7 +69,30 @@ class MakeupRecommendationController extends Controller
 
     public function update(MakeupRecommendationRequest $request, MakeupRecommendation $recommendation): RedirectResponse
     {
-        $recommendation->update($request->validated());
+        $validated = $request->validated();
+        $validated['is_acne'] = $request->boolean('is_acne');
+        $validated['is_sensitive'] = $request->boolean('is_sensitive');
+
+        // Cek apakah kombinasi sudah digunakan oleh record lain
+        $existing = MakeupRecommendation::where('skin_type_id', $validated['skin_type_id'])
+            ->where('is_acne', $validated['is_acne'])
+            ->where('is_sensitive', $validated['is_sensitive'])
+            ->where('id', '!=', $recommendation->id)
+            ->first();
+
+        if ($existing) {
+            return back()
+                ->withInput()
+                ->with('error', 'Kombinasi jenis kulit dan kondisi ini sudah digunakan untuk rekomendasi lain.');
+        }
+
+        try {
+            $recommendation->update($validated);
+        } catch (\Illuminate\Database\UniqueConstraintViolationException $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Kombinasi jenis kulit dan kondisi ini sudah digunakan untuk rekomendasi lain.');
+        }
 
         return redirect()
             ->route('admin.recommendations.index')

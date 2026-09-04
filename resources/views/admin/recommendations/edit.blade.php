@@ -30,6 +30,16 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="flex items-start gap-3 bg-rose/10 border border-rose/30 text-rose text-sm rounded-2xl p-4 backdrop-blur-sm">
+            <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="space-y-1">
+                <p class="font-semibold">Pemberitahuan:</p>
+                <p class="text-xs opacity-90">{{ session('error') }}</p>
+            </div>
+        </div>
+    @endif
+
     <form action="{{ route('admin.recommendations.update', $recommendation) }}" method="POST" class="space-y-6">
         @csrf
         @method('PUT')
