@@ -133,7 +133,7 @@
         <div class="ttd-box">
             <p>Bandung, {{ date('d F Y') }}<br>Administrator System,</p>
             <div class="ttd-space"></div>
-            <p><strong><u>Septian Adiraharja</u></strong></p>
+            <p><strong><u>Septi Rina</u></strong></p>
         </div>
     </div>
 
