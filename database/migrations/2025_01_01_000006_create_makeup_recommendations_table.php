@@ -11,9 +11,9 @@ return new class extends Migration
         Schema::create('makeup_recommendations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('skin_type_id')->constrained('skin_types')->cascadeOnDelete();
-            $table->string('title');
+            $table->string('title', 100);
             $table->text('description')->nullable();
-            $table->string('category'); // primer/foundation/concealer/bedak/blush/eye/lip
+            $table->string('category', 30); // primer/foundation/concealer/bedak/blush/eye/lip
             $table->timestamps();
         });
     }

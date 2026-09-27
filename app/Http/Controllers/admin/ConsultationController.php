@@ -119,7 +119,24 @@ class ConsultationController extends Controller
                 ->latest()
                 ->get();
 
-            $pdf = Pdf::loadView('admin.consultations.pdf', compact('consultations'))
+            // Generate detail perhitungan untuk setiap konsultasi
+            $naiveBayes = app(NaiveBayesService::class);
+            $calculations = [];
+
+            foreach ($consultations as $consultation) {
+                $input = [
+                    'tingkat_minyak'      => $consultation->tingkat_minyak,
+                    'tingkat_kering'      => $consultation->tingkat_kering,
+                    'pori_pori'           => $consultation->pori_pori,
+                    'penggunaan_skincare' => $consultation->penggunaan_skincare,
+                    'jerawat'             => $consultation->jerawat,
+                    'sensitivitas'        => $consultation->sensitivitas,
+                ];
+
+                $calculations[$consultation->id] = $naiveBayes->getDetailedCalculation($input);
+            }
+
+            $pdf = Pdf::loadView('admin.consultations.pdf', compact('consultations', 'calculations'))
                 ->setPaper('a4', 'portrait');
 
             return $pdf->download($fileName . '.pdf');

@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('skin_types', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique(); // normal, oily, dry, combination, sensitive, acne
-            $table->string('name');           // Nama tampil, mis. "Kulit Berminyak"
+            $table->string('code', 20)->unique(); // normal, oily, dry, combination, sensitive, acne
+            $table->string('name', 50);           // Nama tampil, mis. "Kulit Berminyak"
             $table->text('description')->nullable();
             $table->timestamps();
         });

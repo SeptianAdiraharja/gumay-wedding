@@ -27,9 +27,9 @@ return new class extends Migration
             $table->dropUnique('makeup_reco_combo_unique');
             $table->dropColumn(['is_acne', 'is_sensitive', 'tips_perawatan', 'makeup_perempuan', 'makeup_laki_laki']);
 
-            $table->string('title')->after('skin_type_id');
+            $table->string('title', 100)->after('skin_type_id');
             $table->text('description')->nullable()->after('title');
-            $table->string('category')->after('description');
+            $table->string('category', 30)->after('description');
         });
     }
 };

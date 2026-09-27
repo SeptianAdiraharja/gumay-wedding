@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('skin_attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('attribute_key')->unique(); // tingkat_minyak, tingkat_kering, sensitivitas, jerawat, pori_pori
-            $table->string('question_text');            // Teks pertanyaan ke pengguna
-            $table->json('options');                     // Pilihan jawaban, mis. ["rendah","sedang","tinggi"]
+            $table->string('attribute_key', 30)->unique(); // tingkat_minyak, tingkat_kering, sensitivitas, jerawat, pori_pori
+            $table->string('question_text', 150);           // Teks pertanyaan ke pengguna
+            $table->json('options');                        // Pilihan jawaban, mis. ["rendah","sedang","tinggi"]
             $table->timestamps();
         });
     }

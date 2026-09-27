@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->enum('type', ['photo', 'video']);
+            $table->string('title', 100);
+            $table->enum('type', ['photo', 'video']); // enum tidak butuh panjang, sudah efisien
             $table->enum('category', ['makeup', 'dekor', 'dokumentasi', 'busana_pengantin', 'sertifikat']);
-            $table->string('file_path');
+            $table->string('file_path', 150);
             $table->text('description')->nullable();
             $table->timestamps();
         });
